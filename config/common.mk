@@ -1,4 +1,4 @@
-PRODUCT_BRAND ?= PixelExperience
+PRODUCT_BRAND ?= RevengeOS
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
 
@@ -49,40 +49,40 @@ endif
 
 # Backup Tool
 PRODUCT_COPY_FILES += \
-    vendor/aosp/prebuilt/common/bin/backuptool.sh:install/bin/backuptool.sh \
-    vendor/aosp/prebuilt/common/bin/backuptool.functions:install/bin/backuptool.functions \
-    vendor/aosp/prebuilt/common/bin/50-base.sh:system/addon.d/50-base.sh \
-    vendor/aosp/prebuilt/common/bin/blacklist:system/addon.d/blacklist
+    vendor/revengeos/prebuilt/common/bin/backuptool.sh:install/bin/backuptool.sh \
+    vendor/revengeos/prebuilt/common/bin/backuptool.functions:install/bin/backuptool.functions \
+    vendor/revengeos/prebuilt/common/bin/50-base.sh:system/addon.d/50-base.sh \
+    vendor/revengeos/prebuilt/common/bin/blacklist:system/addon.d/blacklist
 
 ifeq ($(AB_OTA_UPDATER),true)
 PRODUCT_COPY_FILES += \
-    vendor/aosp/prebuilt/common/bin/backuptool_ab.sh:system/bin/backuptool_ab.sh \
-    vendor/aosp/prebuilt/common/bin/backuptool_ab.functions:system/bin/backuptool_ab.functions \
-    vendor/aosp/prebuilt/common/bin/backuptool_postinstall.sh:system/bin/backuptool_postinstall.sh
+    vendor/revengeos/prebuilt/common/bin/backuptool_ab.sh:system/bin/backuptool_ab.sh \
+    vendor/revengeos/prebuilt/common/bin/backuptool_ab.functions:system/bin/backuptool_ab.functions \
+    vendor/revengeos/prebuilt/common/bin/backuptool_postinstall.sh:system/bin/backuptool_postinstall.sh
 endif
 
 # Some permissions
 PRODUCT_COPY_FILES += \
-    vendor/aosp/config/permissions/backup.xml:system/etc/sysconfig/backup.xml \
-    vendor/aosp/config/permissions/privapp-permissions-aosp.xml:system/etc/permissions/privapp-permissions-aosp.xml
+    vendor/revengeos/config/permissions/backup.xml:system/etc/sysconfig/backup.xml \
+    vendor/revengeos/config/permissions/privapp-permissions-revengeos.xml:system/etc/permissions/privapp-permissions-revengeos.xml
 
 # init.d support
 PRODUCT_COPY_FILES += \
-    vendor/aosp/prebuilt/common/bin/sysinit:system/bin/sysinit
+    vendor/revengeos/prebuilt/common/bin/sysinit:system/bin/sysinit
 
 ifneq ($(TARGET_BUILD_VARIANT),user)
 # userinit support
 PRODUCT_COPY_FILES += \
-    vendor/aosp/prebuilt/common/etc/init.d/90userinit:system/etc/init.d/90userinit
+    vendor/revengeos/prebuilt/common/etc/init.d/90userinit:system/etc/init.d/90userinit
 endif
 
 # Copy all custom init rc files
-$(foreach f,$(wildcard vendor/aosp/prebuilt/common/etc/init/*.rc),\
+$(foreach f,$(wildcard vendor/revengeos/prebuilt/common/etc/init/*.rc),\
     $(eval PRODUCT_COPY_FILES += $(f):system/etc/init/$(notdir $f)))
 
 # Copy over added mimetype supported in libcore.net.MimeUtils
 PRODUCT_COPY_FILES += \
-    vendor/aosp/prebuilt/common/lib/content-types.properties:system/lib/content-types.properties
+    vendor/revengeos/prebuilt/common/lib/content-types.properties:system/lib/content-types.properties
 
 # Enable SIP+VoIP on all targets
 PRODUCT_COPY_FILES += \
@@ -124,13 +124,13 @@ PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
     media.recorder.show_manufacturer_and_model=true
 
-DEVICE_PACKAGE_OVERLAYS += vendor/aosp/overlay/common
+DEVICE_PACKAGE_OVERLAYS += vendor/revengeos/overlay/common
 
 # Branding
-include vendor/aosp/config/branding.mk
+include vendor/revengeos/config/branding.mk
 
 # OTA
-include vendor/aosp/config/ota.mk
+include vendor/revengeos/config/ota.mk
 
 # GApps
 include vendor/gapps/config.mk

@@ -68,7 +68,7 @@ function breakfast()
     local variant=$2
     unset LUNCH_MENU_CHOICES
     add_lunch_combo full-eng
-    for f in `/bin/ls vendor/aosp/vendorsetup.sh 2> /dev/null`
+    for f in `/bin/ls vendor/revengeos/vendorsetup.sh 2> /dev/null`
         do
             echo "including $f"
             . $f
@@ -89,7 +89,7 @@ function breakfast()
                 variant="userdebug"
             fi
 
-            lunch aosp_$target-$variant
+            lunch revengeos_$target-$variant
         fi
     fi
     return $?
@@ -100,7 +100,7 @@ alias bib=breakfast
 function eat()
 {
     if [ "$OUT" ] ; then
-        ZIPPATH=`ls -tr "$OUT"/PixelExperience-*.zip | tail -1`
+        ZIPPATH=`ls -tr "$OUT"/RevengeOS-*.zip | tail -1`
         if [ ! -f $ZIPPATH ] ; then
             echo "Nothing to eat"
             return 1
@@ -114,7 +114,7 @@ function eat()
             done
             echo "Device Found.."
         fi
-        if (adb shell getprop org.pixelexperience.device | grep -q "$CUSTOM_BUILD"); then
+        if (adb shell getprop org.revengeos.device | grep -q "$CUSTOM_BUILD"); then
             # if adbd isn't root we can't write to /cache/recovery/
             adb root
             sleep 1
@@ -332,7 +332,7 @@ function installboot()
     sleep 1
     adb wait-for-online shell mount /system 2>&1 > /dev/null
     adb wait-for-online remount
-    if (adb shell getprop org.pixelexperience.device | grep -q "$CUSTOM_BUILD");
+    if (adb shell getprop org.revengeos.device | grep -q "$CUSTOM_BUILD");
     then
         adb push $OUT/boot.img /cache/
         if [ -e "$OUT/system/lib/modules/*" ];
@@ -381,7 +381,7 @@ function installrecovery()
     sleep 1
     adb wait-for-online shell mount /system 2>&1 >> /dev/null
     adb wait-for-online remount
-    if (adb shell getprop org.pixelexperience.device | grep -q "$CUSTOM_BUILD");
+    if (adb shell getprop org.revengeos.device | grep -q "$CUSTOM_BUILD");
     then
         adb push $OUT/recovery.img /cache/
         adb shell dd if=/cache/recovery.img of=$PARTITION
@@ -402,7 +402,7 @@ function pixelgerrit() {
         $FUNCNAME help
         return 1
     fi
-    local user=`git config --get review.gerrit.pixelexperience.org.username`
+    local user=`git config --get review.gerrit.revengeos.org.username`
     local review=`git config --get remote.pixel.review`
     local project=`git config --get remote.pixel.projectname`
     local command=$1
@@ -659,7 +659,7 @@ function pixelrebase() {
     echo "Bringing it up to date..."
     repo sync .
     echo "Fetching change..."
-    git fetch "http://gerrit.pixelexperience.org/p/$repo" "refs/changes/$refs" && git cherry-pick FETCH_HEAD
+    git fetch "http://gerrit.revengeos.org/p/$repo" "refs/changes/$refs" && git cherry-pick FETCH_HEAD
     if [ "$?" != "0" ]; then
         echo "Error cherry-picking. Not uploading!"
         return
@@ -744,7 +744,7 @@ function dopush()
         echo "Device Found."
     fi
 
-    if (adb shell getprop org.pixelexperience.device | grep -q "$CUSTOM_BUILD") || [ "$FORCE_PUSH" = "true" ];
+    if (adb shell getprop org.revengeos.device | grep -q "$CUSTOM_BUILD") || [ "$FORCE_PUSH" = "true" ];
     then
     # retrieve IP and PORT info if we're using a TCP connection
     TCPIPPORT=$(adb devices \
@@ -875,7 +875,7 @@ alias cmkap='dopush cmka'
 
 function repopick() {
     T=$(gettop)
-    $T/vendor/aosp/build/tools/repopick.py $@
+    $T/vendor/revengeos/build/tools/repopick.py $@
 }
 
 function fixup_common_out_dir() {
@@ -906,7 +906,7 @@ if [ -d $(gettop)/prebuilts/snapdragon-llvm/toolchains ]; then
             export SDCLANG=true
             export SDCLANG_PATH=$(gettop)/prebuilts/snapdragon-llvm/toolchains/llvm-Snapdragon_LLVM_for_Android_4.0/prebuilt/linux-x86_64/bin
             export SDCLANG_PATH_2=$(gettop)/prebuilts/snapdragon-llvm/toolchains/llvm-Snapdragon_LLVM_for_Android_4.0/prebuilt/linux-x86_64/bin
-            export SDCLANG_LTO_DEFS=$(gettop)/vendor/aosp/build/core/sdllvm-lto-defs.mk
+            export SDCLANG_LTO_DEFS=$(gettop)/vendor/revengeos/build/core/sdllvm-lto-defs.mk
             ;;
     esac
 fi
