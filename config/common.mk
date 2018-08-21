@@ -135,8 +135,8 @@ include vendor/revengeos/config/ota.mk
 # GApps
 include vendor/gapps/config.mk
 
-# Pixel Style
-include vendor/pixelstyle/config.mk
+# RevengeUI
+include vendor/revengeui/config.mk
 
 # Themes
 #include vendor/themes/config.mk
