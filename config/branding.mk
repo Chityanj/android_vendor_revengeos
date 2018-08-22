@@ -1,7 +1,7 @@
 # Set all versions
 CUSTOM_BUILD_TYPE ?= UNOFFICIAL
 CUSTOM_BUILD_DATE := $(shell date -u +%Y%m%d-%H%M)
-CUSTOM_PLATFORM_VERSION := 9.0
+CUSTOM_PLATFORM_VERSION := 2.0
 
 TARGET_PRODUCT_SHORT := $(subst revengeos_,,$(CUSTOM_BUILD))
 
